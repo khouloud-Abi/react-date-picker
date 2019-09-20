@@ -28,7 +28,10 @@ export default class DatePicker extends PureComponent {
     return null;
   }
 
-  state = {};
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   componentDidMount() {
     this.handleOutsideActionListeners();
@@ -105,6 +108,8 @@ export default class DatePicker extends PureComponent {
   stopPropagation = event => event.stopPropagation();
 
   clear = () => this.onChange(null);
+
+  today = () => this.onChange(new Date())
 
   handleOutsideActionListeners(shouldListen) {
     const { isOpen } = this.state;
@@ -219,6 +224,7 @@ export default class DatePicker extends PureComponent {
       className: datePickerClassName, // Unused, here to exclude it from calendarProps
       onChange,
       value,
+      todayOption,
       ...calendarProps
     } = this.props;
 
@@ -233,7 +239,22 @@ export default class DatePicker extends PureComponent {
             value={value || null}
             {...calendarProps}
           />
+
+          {
+              todayOption
+                ? (
+                  <button
+                    className={`${baseClassName}__today-button`}
+                    onClick={this.today}
+                    type="button"
+                  >
+              Today
+                  </button>
+                )
+                : ''
+             }
         </div>
+
       </Fit>
     );
   }
@@ -343,6 +364,7 @@ DatePicker.propTypes = {
   required: PropTypes.bool,
   returnValue: PropTypes.oneOf(['start', 'end', 'range']),
   showLeadingZeros: PropTypes.bool,
+  todayOption: PropTypes.bool,
   value: PropTypes.oneOfType([
     isValue,
     PropTypes.arrayOf(isValue),

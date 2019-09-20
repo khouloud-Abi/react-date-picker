@@ -1,6 +1,6 @@
 import { CalendarProps } from "react-calendar";
 
-declare module "react-date-picker" {
+declare module "react-today-date-picker" {
   export default function DatePicker(props: DatePickerProps): JSX.Element;
 
   export interface DatePickerProps extends CalendarProps {
@@ -14,5 +14,6 @@ declare module "react-date-picker" {
     name?: string;
     required?: boolean;
     showLeadingZeros?: boolean;
+    todayOption?: boolean;
   }
 }

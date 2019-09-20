@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import DatePicker from 'react-date-picker/src/entry.nostyle';
-import 'react-date-picker/src/DatePicker.less';
+import DatePicker from '../src/entry.nostyle';
+import '../src/DatePicker.less';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-calendar/src/Calendar.less';
 
@@ -33,20 +33,24 @@ const placeholderProps = {
 /* eslint-disable no-console */
 
 export default class Test extends PureComponent {
-  state = {
-    disabled: false,
-    locale: null,
-    maxDate: new Date(now.getUTCFullYear(), now.getUTCMonth() + 1, 15, 12),
-    maxDetail: 'month',
-    minDate: new Date(1995, now.getUTCMonth() + 1, 15, 12),
-    minDetail: 'century',
-    returnValue: 'start',
-    required: true,
-    showLeadingZeros: true,
-    showNeighboringMonth: false,
-    showWeekNumbers: false,
-    value: now,
+  constructor() {
+    super();
+    this.state = {
+      disabled: false,
+      locale: null,
+      maxDate: new Date(now.getUTCFullYear(), now.getUTCMonth() + 1, 15, 12),
+      maxDetail: 'month',
+      minDate: new Date(1995, now.getUTCMonth() + 1, 15, 12),
+      minDetail: 'century',
+      returnValue: 'start',
+      required: true,
+      showLeadingZeros: true,
+      showNeighboringMonth: false,
+      showWeekNumbers: false,
+      value: now,
+    };
   }
+
 
   onChange = value => this.setState({ value })
 
@@ -138,6 +142,7 @@ export default class Test extends PureComponent {
                 showLeadingZeros={showLeadingZeros}
                 showNeighboringMonth={showNeighboringMonth}
                 showWeekNumbers={showWeekNumbers}
+                todayOption
                 value={value}
               />
               <br />
