@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat';
 import makeEventProps from 'make-event-props';
 import mergeClassNames from 'merge-class-names';
 import Fit from 'react-fit';
-
+import moment from 'moment';
 import Calendar from 'react-calendar/dist/entry.nostyle';
 
 import DateInput from './DateInput';
@@ -59,7 +59,7 @@ export default class DatePicker extends PureComponent {
     if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.closeCalendar();
     }
-  }
+  };
 
   onChange = (value, closeCalendar = true) => {
     this.setState({
@@ -70,7 +70,7 @@ export default class DatePicker extends PureComponent {
     if (onChange) {
       onChange(value);
     }
-  }
+  };
 
   onFocus = (event) => {
     const { disabled, onFocus } = this.props;
@@ -85,11 +85,11 @@ export default class DatePicker extends PureComponent {
     }
 
     this.openCalendar();
-  }
+  };
 
   openCalendar = () => {
     this.setState({ isOpen: true });
-  }
+  };
 
   closeCalendar = () => {
     this.setState((prevState) => {
@@ -99,23 +99,25 @@ export default class DatePicker extends PureComponent {
 
       return { isOpen: false };
     });
-  }
+  };
 
   toggleCalendar = () => {
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  }
+  };
 
   stopPropagation = event => event.stopPropagation();
 
   clear = () => this.onChange(null);
 
-  today = () => this.onChange(new Date())
+  today = () => this.onChange(new Date());
 
   handleOutsideActionListeners(shouldListen) {
     const { isOpen } = this.state;
 
     const shouldListenWithFallback = typeof shouldListen !== 'undefined' ? shouldListen : isOpen;
-    const fnName = shouldListenWithFallback ? 'addEventListener' : 'removeEventListener';
+    const fnName = shouldListenWithFallback
+      ? 'addEventListener'
+      : 'removeEventListener';
     outsideActionEvents.forEach(eventName => document[fnName](eventName, this.onOutsideAction));
   }
 
@@ -229,10 +231,16 @@ export default class DatePicker extends PureComponent {
     } = this.props;
 
     const className = `${baseClassName}__calendar`;
+    const isToday = moment(new Date()).format('DD MMM YY') === moment(value).format('DD MMM YY');
 
     return (
       <Fit>
-        <div className={mergeClassNames(className, `${className}--${isOpen ? 'open' : 'closed'}`)}>
+        <div
+          className={mergeClassNames(
+            className,
+            `${className}--${isOpen ? 'open' : 'closed'}`,
+          )}
+        >
           <Calendar
             className={calendarClassName}
             onChange={this.onChange}
@@ -240,21 +248,19 @@ export default class DatePicker extends PureComponent {
             {...calendarProps}
           />
 
-          {
-              todayOption
-                ? (
-                  <button
-                    className={`${baseClassName}__today-button`}
-                    onClick={this.today}
-                    type="button"
-                  >
+          {todayOption ? (
+            <button
+              className={`${baseClassName}__today-button`}
+              onClick={this.today}
+              style={isToday ? { backgroundColor: '#0979be', color: 'white' } : {}}
+              type="button"
+            >
               Today
-                  </button>
-                )
-                : ''
-             }
+            </button>
+          ) : (
+            ''
+          )}
         </div>
-
       </Fit>
     );
   }
@@ -365,10 +371,7 @@ DatePicker.propTypes = {
   returnValue: PropTypes.oneOf(['start', 'end', 'range']),
   showLeadingZeros: PropTypes.bool,
   todayOption: PropTypes.bool,
-  value: PropTypes.oneOfType([
-    isValue,
-    PropTypes.arrayOf(isValue),
-  ]),
+  value: PropTypes.oneOfType([isValue, PropTypes.arrayOf(isValue)]),
   yearAriaLabel: PropTypes.string,
   yearPlaceholder: PropTypes.string,
 };
