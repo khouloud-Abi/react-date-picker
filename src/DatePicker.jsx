@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat';
 import makeEventProps from 'make-event-props';
 import mergeClassNames from 'merge-class-names';
 import Fit from 'react-fit';
-import moment from 'moment';
+// import moment from 'moment';
 import Calendar from 'react-calendar/dist/entry.nostyle';
 
 import DateInput from './DateInput';
@@ -231,7 +231,7 @@ export default class DatePicker extends PureComponent {
     } = this.props;
 
     const className = `${baseClassName}__calendar`;
-    const isToday = moment(new Date()).format('DD MMM YY') === moment(value).format('DD MMM YY');
+    // const isToday = moment(new Date()).format('DD MMM YY') === moment(value).format('DD MMM YY');
 
     return (
       <Fit>
@@ -252,7 +252,7 @@ export default class DatePicker extends PureComponent {
             <button
               className={`${baseClassName}__today-button`}
               onClick={this.today}
-              style={isToday ? { backgroundColor: '#0979be', color: 'white' } : {}}
+              // style={isToday ? { backgroundColor: '#0979be', color: 'white' } : {}}
               type="button"
             >
               Today
